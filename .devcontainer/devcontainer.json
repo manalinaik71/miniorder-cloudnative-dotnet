@@ -2,8 +2,10 @@
   "name": "dotnet-docker",
   "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   "forwardPorts": [8080],
-  "postCreateCommand": "docker --version && docker compose version"
+  "postCreateCommand": "docker --version && docker compose version",
+  
 }
