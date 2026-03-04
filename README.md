@@ -1,5 +1,10 @@
 # miniorder-cloudnative-dotnet
-## Day 1 : Run Catalog API in docker (Code spaces)
+A hands-on portfolio project to practice **cloud-native .NET** basics: Docker, Docker Compose, and (later) microservices, integration testing, Azure, and Kubernetes.
+
+**Tech stack:** .NET 8, ASP.NET Core Web API, Docker, Docker Compose, PostgreSQL, EF Core
+
+---
+## Day 1 – Run Catalog API in Docker (Codespaces)
 
 ### Build
 docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
@@ -7,5 +12,27 @@ docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
 ### Run
 docker run --rm -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 catalog-api
 
-### open
+### Open
 /swagger
+
+---
+
+## Day 2 – Docker Compose (API + PostgreSQL)
+
+### Start
+docker compose up --build
+
+### Stop (keep DB data)
+docker compose down
+
+### Stop (delete DB data)
+docker compose down -v
+
+### Swagger
+Open: /swagger
+
+### Endpoints
+POST /api/v1/products
+GET  /api/v1/products
+
+---
