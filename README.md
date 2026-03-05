@@ -36,3 +36,24 @@ POST /api/v1/products
 GET  /api/v1/products
 
 ---
+
+## Day 3 – Microservices + OpenAPI
+
+### Existing Catalog API (http://localhost:8080)
+- Swagger: /swagger
+
+### Catalog Service (http://localhost:5001)
+- Swagger: /swagger
+- GET /api/v1/products
+- GET /api/v1/products/{id}
+- POST /api/v1/products
+
+### Order Service (http://localhost:5002)
+- Swagger: /swagger
+- POST /api/v1/orders
+- GET /api/v1/orders/{id}
+
+### Run
+docker compose up --build
+
+---
