@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{71D66D12-CD4B-46E5-84B4-91FC7D233257}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "catalog-service", "catalog-service", "{D7A42B60-C9ED-4211-AF5E-E60F22A691D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Api", "src\catalog-service\Catalog.Api\Catalog.Api.csproj", "{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "order-service", "order-service", "{A22D9D47-E648-40BC-B99A-188B74C73E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Api", "src\order-service\Order.Api\Order.Api.csproj", "{2CB94726-38A6-4547-82F3-F8EB76D599DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB94726-38A6-4547-82F3-F8EB76D599DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB94726-38A6-4547-82F3-F8EB76D599DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB94726-38A6-4547-82F3-F8EB76D599DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB94726-38A6-4547-82F3-F8EB76D599DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D7A42B60-C9ED-4211-AF5E-E60F22A691D1} = {71D66D12-CD4B-46E5-84B4-91FC7D233257}
+		{0C45912B-9855-4E32-A9D3-DAF6C4EB2EDD} = {D7A42B60-C9ED-4211-AF5E-E60F22A691D1}
+		{A22D9D47-E648-40BC-B99A-188B74C73E6A} = {71D66D12-CD4B-46E5-84B4-91FC7D233257}
+		{2CB94726-38A6-4547-82F3-F8EB76D599DE} = {A22D9D47-E648-40BC-B99A-188B74C73E6A}
+	EndGlobalSection
+EndGlobal
