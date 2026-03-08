@@ -57,3 +57,33 @@ GET  /api/v1/products
 docker compose up --build
 
 ---
+## Day 3–4: Microservices + PostgreSQL + Docker Compose + Swagger
+
+### What was built
+- Two microservices:
+  - **Catalog Service** (Products)
+  - **Order Service** (Orders)
+- Each service runs independently in Docker with its own Swagger/OpenAPI
+- PostgreSQL added as real persistence (data survives restarts)
+  - **catalog-db** for Catalog Service
+  - **order-db** for Order Service
+- EF Core + Npgsql used with migrations; tables are created automatically on startup via `Database.Migrate()`
+
+
+### Architecture (local)
+- catalog-service → http://localhost:5001
+- order-service → http://localhost:5002
+- catalog-db (Postgres) → localhost:5433 (for local access)
+- order-db (Postgres) → localhost:5434 (for local access)
+
+Inside Docker network, services connect using service DNS names:
+- `catalog-db:5432`
+- `order-db:5432`
+
+
+### How to run
+```bash
+docker compose up --build
+docker compose down
+
+---

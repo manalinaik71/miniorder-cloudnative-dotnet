@@ -1,53 +1,59 @@
 
 
 services:
-  postgres:
+  catalog-db:
     image: postgres:16
-    container_name: catalog-postgres
+    container_name: catalog-db
     environment:
-      POSTGRES_DB: catalogdb
+      POSTGRES_DB: catalog_db
       POSTGRES_USER: app
       POSTGRES_PASSWORD: app123
+    
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - catalog_pgdata:/var/lib/postgresql/data
 
-  api:
-    build:
-      context: .
-      dockerfile: src/Catalog.Api/Dockerfile
-    container_name: existing-catalog-api
+  order-db:
+    image: postgres:16
+    container_name: order-db
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__Default: Host=postgres;Port=5432;Database=catalogdb;Username=app;Password=app123
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
+      POSTGRES_DB: order_db
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app123
 
+    ports:
+      - "5434:5432"
+    volumes:
+      - order_pgdata:/var/lib/postgresql/data
   catalog-service:
     build: 
       context: ./src/catalog-service/Catalog.Api
       dockerfile: Dockerfile
     container_name: catalog-api
+    depends_on:
+      - catalog-db
     ports:
       - "5001:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__Default: "Host=catalog-db;Port=5432;Database=catalog_db;Username=app;Password=app123"
   
   order-service:
     build: 
       context: ./src/order-service/Order.Api
       dockerfile: Dockerfile
     container_name: order-api
+    depends_on:
+      - order-db
     ports: 
       - "5002:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__Default: "Host=order-db;Port=5432;Database=order_db;Username=app;Password=app123"
 
 volumes:
-  pgdata:
+  catalog_pgdata:
+  order_pgdata:
