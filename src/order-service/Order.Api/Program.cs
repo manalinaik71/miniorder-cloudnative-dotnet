@@ -50,6 +50,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 app.MapControllers();
+app.MapGet("/health",()=> Results.Ok("OK"));
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

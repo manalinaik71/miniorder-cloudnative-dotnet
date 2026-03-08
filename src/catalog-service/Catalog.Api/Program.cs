@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.XPath;
 using Catalog.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +51,7 @@ app.MapGet("/weatherforecast", () =>
 .WithOpenApi();
 
 app.MapControllers();
+app.MapGet("/health",()=> Results.Ok("OK"));
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
