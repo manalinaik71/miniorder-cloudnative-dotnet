@@ -54,6 +54,20 @@ services:
       ASPNETCORE_URLS: "http://+:8080"
       ConnectionStrings__Default: "Host=order-db;Port=5432;Database=order_db;Username=app;Password=app123"
 
+  api-gateway:
+    build: 
+      context: ./src/api-gateway/Gateway.Api
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    depends_on:
+      -  catalog-service
+      -  order-service
+    ports:
+      - "8080:8080"
+    environment:
+       ASPNETCORE_ENVIRONMENT: Development
+       ASPNETCORE_URLS : "http://+:8080"
+
 volumes:
   catalog_pgdata:
   order_pgdata:
