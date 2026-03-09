@@ -6,6 +6,6 @@
       "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
   "forwardPorts": [8080],
-  "postCreateCommand": "docker --version && docker compose version",
+  "postCreateCommand": "docker --version && docker compose version"
   
 }
