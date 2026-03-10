@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Order.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrderDbContext>(Opt =>
                  Opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddHttpClient("catalog", C =>
+{
+    C.BaseAddress = new Uri("http://catalog-service:8080");
+});
 
 var app = builder.Build();
 
@@ -49,7 +55,6 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
-app.MapControllers();
 app.MapGet("/health",()=> Results.Ok("OK"));
 app.Run();
 

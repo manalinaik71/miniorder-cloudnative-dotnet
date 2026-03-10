@@ -9,9 +9,12 @@ namespace Order.Api.Controllers;
 public class OrdersController : ControllerBase
 {
     private readonly OrderDbContext _db;
-    public OrdersController(OrderDbContext db)
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public OrdersController(OrderDbContext db, IHttpClientFactory  httpClientFactory)
     {
         _db = db;
+       _httpClientFactory = httpClientFactory;
     }
 
    [HttpPost]
@@ -20,6 +23,18 @@ public class OrdersController : ControllerBase
         if(request.Items == null || request.Items.Count == 0)
         {
             return BadRequest("Atleast one item should be created");
+        }
+        var client = _httpClientFactory.CreateClient("catalog");
+
+        foreach(var item in request.Items)
+        {
+        
+            var response = await client.GetAsync($"/api/v1/products/{item.ProductId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return BadRequest($"Product with id {item.ProductId} does not exist in Catalog API.");
+            }
         }
 
         var orderEntity = new OrderEntity
@@ -95,4 +110,6 @@ public class OrdersController : ControllerBase
 
     public record OrderDto(Guid Id, DateTime CreatedAtUTC, List<OrderItemDto> Items);
     public record OrderItemDto(Guid ProductId, int Quantity);
+
+    public record CatalogProductDto(Guid Id, string Name, decimal Price);
 }

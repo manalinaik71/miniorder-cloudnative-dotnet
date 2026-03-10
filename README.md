@@ -86,4 +86,33 @@ Inside Docker network, services connect using service DNS names:
 docker compose up --build
 docker compose down
 
+```
 ---
+### Day 4 Progress — Gateway (YARP)
+
+Implemented an API Gateway using YARP to provide a single public entry point for backend services.
+
+### Completed
+- Added `api-gateway` project using YARP
+- Configured reverse proxy routes:
+  - `/catalog/*` → `catalog-service`
+  - `/orders/*` → `order-service`
+- Added `/health` endpoint for gateway health check
+- Verified successful routing for Catalog and Order APIs
+- Tested gateway endpoints successfully in Postman
+
+### Current Outcome
+The system now supports API-driven architecture with a single gateway entry point in front of multiple backend services.
+
+### Architecture
+```text
+Client / Postman
+       |
+       v
+   API Gateway (YARP)
+    /             \
+   v               v
+Catalog API      Order API
+   |               |
+   v               v
+Catalog DB       Order DB
