@@ -57,7 +57,7 @@ GET  /api/v1/products
 docker compose up --build
 
 ---
-## Day 3–4: Microservices + PostgreSQL + Docker Compose + Swagger
+### Day 3–4: Microservices + PostgreSQL + Docker Compose + Swagger
 
 ### What was built
 - Two microservices:
@@ -116,3 +116,68 @@ Catalog API      Order API
    |               |
    v               v
 Catalog DB       Order DB
+```
+---
+### Day 5 — Integration Testing
+
+### Overview
+
+The goal was to verify that APIs work correctly when called through real HTTP endpoints, instead of testing only individual methods in isolation.
+
+This day covers:
+
+- ASP.NET Core Integration Testing
+- `WebApplicationFactory<Program>`
+- Testing API endpoints using `HttpClient`
+- Verifying end-to-end request/response flow
+
+
+
+### What was implemented
+
+A separate integration test project was added for testing API behavior.
+
+
+
+### Test cases covered
+
+#### 1. Catalog API — GET endpoint
+Verified that the Catalog API returns product details correctly for a valid product ID.
+
+#### 2. Order API — POST endpoint
+Verified that a new order can be created successfully.
+
+#### 3. Order API — GET by ID endpoint
+Verified that the created order can be fetched correctly using its generated order ID.
+
+#### 4. Service-to-service validation flow
+While creating an order, the Order API checks whether the product exists in the Catalog API before saving the order.  
+This validates the real integration behavior between both services.
+
+
+
+
+### Technologies used
+
+- ASP.NET Core
+- xUnit
+- `Microsoft.AspNetCore.Mvc.Testing`
+- `WebApplicationFactory<Program>`
+- `HttpClient`
+- FluentAssertions
+
+
+### Project structure
+
+Example structure:
+
+```bash
+src/
+  catalog-service/
+    Catalog.Api/
+  order-service/
+    Order.Api/
+tests/
+  Order.Api.IntegrationTests/
+
+```  
