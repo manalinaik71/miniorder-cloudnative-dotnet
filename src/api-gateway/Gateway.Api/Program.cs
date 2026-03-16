@@ -4,6 +4,7 @@ builder.Services.AddReverseProxy()
 
 var app = builder.Build();
 
+app.MapGet("/",()=>"Gateway app is running on Azure container app");
 app.MapGet("/health",() => Results.Ok("OK"));
 app.MapReverseProxy();
 

@@ -181,3 +181,32 @@ tests/
   Order.Api.IntegrationTests/
 
 ```  
+---
+### Day 6 - Deployment Notes (Azure Container Apps)
+
+As part of Azure learning, I deployed the microservices application to Azure Container Apps.
+The deployed components included:
+
+1. Gateway App
+
+2. Catalog API
+
+3. Catalog DB container
+
+### The deployment process involved:
+
+1. building Docker images
+
+2. pushing images to Azure Container Registry
+
+3. deploying them to Azure Container Apps
+
+4. configuring secrets and environment variables
+
+5. checking application logs for troubleshooting
+
+6. understanding revisions after updates
+
+### This hands-on exercise helped me understand how cloud-native microservices can be hosted and managed in Azure without manually managing servers or Kubernetes clusters.
+
+---
