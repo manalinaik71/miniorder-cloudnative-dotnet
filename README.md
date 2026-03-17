@@ -4,7 +4,7 @@ A hands-on portfolio project to practice **cloud-native .NET** basics: Docker, D
 **Tech stack:** .NET 8, ASP.NET Core Web API, Docker, Docker Compose, PostgreSQL, EF Core
 
 ---
-## Day 1 – Run Catalog API in Docker (Codespaces)
+## Day 1 - Run Catalog API in Docker (Codespaces)
 
 ### Build
 docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
@@ -17,7 +17,7 @@ docker run --rm -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 catalog-api
 
 ---
 
-## Day 2 – Docker Compose (API + PostgreSQL)
+## Day 2 - Docker Compose (API + PostgreSQL)
 
 ### Start
 docker compose up --build
@@ -37,7 +37,7 @@ GET  /api/v1/products
 
 ---
 
-## Day 3 – Microservices + OpenAPI
+## Day 3 - Microservices + OpenAPI
 
 ### Existing Catalog API (http://localhost:8080)
 - Swagger: /swagger
@@ -57,7 +57,7 @@ GET  /api/v1/products
 docker compose up --build
 
 ---
-### Day 3–4: Microservices + PostgreSQL + Docker Compose + Swagger
+### Day 3–4  - Microservices + PostgreSQL + Docker Compose + Swagger
 
 ### What was built
 - Two microservices:
@@ -88,7 +88,7 @@ docker compose down
 
 ```
 ---
-### Day 4 — Gateway (YARP)
+### Day 4 - Gateway (YARP)
 
 Implemented an API Gateway using YARP to provide a single public entry point for backend services.
 
@@ -118,7 +118,7 @@ Catalog API      Order API
 Catalog DB       Order DB
 ```
 ---
-### Day 5 — Integration Testing
+### Day 5 - Integration Testing
 
 ### Overview
 
