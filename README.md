@@ -230,4 +230,9 @@ kubectl get svc
 kubectl get svc gateway-api
 curl http://localhost:30080
 ```
+### Screenshot proof
+
+![Kubernetes Hands-on Proof](k8s-proof.png)
+
+---
 
