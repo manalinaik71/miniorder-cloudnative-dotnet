@@ -88,7 +88,7 @@ docker compose down
 
 ```
 ---
-### Day 4 Progress — Gateway (YARP)
+### Day 4 — Gateway (YARP)
 
 Implemented an API Gateway using YARP to provide a single public entry point for backend services.
 
