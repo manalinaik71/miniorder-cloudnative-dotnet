@@ -210,3 +210,24 @@ The deployed components included:
 ### This hands-on exercise helped me understand how cloud-native microservices can be hosted and managed in Azure without manually managing servers or Kubernetes clusters.
 
 ---
+
+
+### Day 7 - Kubernetes Hands-on Proof
+
+I deployed the microservices application in a Kubernetes playground using Deployments and Services.
+
+### Verified components
+- catalog-api
+- catalog-db
+- order-api
+- order-db
+- gateway-api
+
+### Verification commands used
+```bash
+kubectl get pods
+kubectl get svc
+kubectl get svc gateway-api
+curl http://localhost:30080
+```
+
