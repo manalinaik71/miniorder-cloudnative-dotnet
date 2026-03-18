@@ -1,110 +1,33 @@
 # miniorder-cloudnative-dotnet
-A hands-on portfolio project to practice **cloud-native .NET** basics: Docker, Docker Compose, and (later) microservices, integration testing, Azure, and Kubernetes.
+A hands-on cloud-native .NET portfolio project covering microservices, Docker, Docker Compose, integration testing, Azure Container Apps, and Kubernetes.
 
-**Tech stack:** .NET 8, ASP.NET Core Web API, Docker, Docker Compose, PostgreSQL, EF Core
+## Tech Stack
 
----
-## Day 1 - Run Catalog API in Docker (Codespaces)
+- .NET 8
+- ASP.NET Core Web API
+- Docker
+- Docker Compose
+- PostgreSQL
+- EF Core
+- YARP API Gateway
+- xUnit
+- Azure Container Apps
+- Kubernetes
 
-### Build
-docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
+## Project Overview
 
-### Run
-docker run --rm -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 catalog-api
+This project demonstrates a cloud-native .NET microservices setup with:
 
-### Open
-/swagger
+- Catalog API
+- Order API
+- YARP API Gateway
+- PostgreSQL databases
+- Docker Compose for local orchestration
+- Integration testing
+- Azure Container Apps deployment
+- Kubernetes manifests in `/k8s`
 
----
-
-## Day 2 - Docker Compose (API + PostgreSQL)
-
-### Start
-docker compose up --build
-
-### Stop (keep DB data)
-docker compose down
-
-### Stop (delete DB data)
-docker compose down -v
-
-### Swagger
-Open: /swagger
-
-### Endpoints
-POST /api/v1/products
-GET  /api/v1/products
-
----
-
-## Day 3 - Microservices + OpenAPI
-
-### Existing Catalog API (http://localhost:8080)
-- Swagger: /swagger
-
-### Catalog Service (http://localhost:5001)
-- Swagger: /swagger
-- GET /api/v1/products
-- GET /api/v1/products/{id}
-- POST /api/v1/products
-
-### Order Service (http://localhost:5002)
-- Swagger: /swagger
-- POST /api/v1/orders
-- GET /api/v1/orders/{id}
-
-### Run
-docker compose up --build
-
----
-### Day 3–4  - Microservices + PostgreSQL + Docker Compose + Swagger
-
-### What was built
-- Two microservices:
-  - **Catalog Service** (Products)
-  - **Order Service** (Orders)
-- Each service runs independently in Docker with its own Swagger/OpenAPI
-- PostgreSQL added as real persistence (data survives restarts)
-  - **catalog-db** for Catalog Service
-  - **order-db** for Order Service
-- EF Core + Npgsql used with migrations; tables are created automatically on startup via `Database.Migrate()`
-
-
-### Architecture (local)
-- catalog-service → http://localhost:5001
-- order-service → http://localhost:5002
-- catalog-db (Postgres) → localhost:5433 (for local access)
-- order-db (Postgres) → localhost:5434 (for local access)
-
-Inside Docker network, services connect using service DNS names:
-- `catalog-db:5432`
-- `order-db:5432`
-
-
-### How to run
-```bash
-docker compose up --build
-docker compose down
-
-```
----
-### Day 4 - Gateway (YARP)
-
-Implemented an API Gateway using YARP to provide a single public entry point for backend services.
-
-### Completed
-- Added `api-gateway` project using YARP
-- Configured reverse proxy routes:
-  - `/catalog/*` → `catalog-service`
-  - `/orders/*` → `order-service`
-- Added `/health` endpoint for gateway health check
-- Verified successful routing for Catalog and Order APIs
-- Tested gateway endpoints successfully in Postman
-
-### Current Outcome
-The system now supports API-driven architecture with a single gateway entry point in front of multiple backend services.
-
-### Architecture
+## Architecture
 ```text
 Client / Postman
        |
@@ -116,123 +39,157 @@ Catalog API      Order API
    |               |
    v               v
 Catalog DB       Order DB
+
 ```
----
-### Day 5 - Integration Testing
+## Services
 
-### Overview
+### Catalog Service
+- Swagger: `/swagger`
+- GET `/api/v1/products`
+- GET `/api/v1/products/{id}`
+- POST `/api/v1/products`
 
-The goal was to verify that APIs work correctly when called through real HTTP endpoints, instead of testing only individual methods in isolation.
+### Order Service
+- Swagger: `/swagger`
+- POST `/api/v1/orders`
+- GET `/api/v1/orders/{id}`
 
-This day covers:
-
-- ASP.NET Core Integration Testing
-- `WebApplicationFactory<Program>`
-- Testing API endpoints using `HttpClient`
-- Verifying end-to-end request/response flow
-
-
-
-### What was implemented
-
-A separate integration test project was added for testing API behavior.
+### Gateway
+- `/catalog/*` -> Catalog Service
+- `/orders/*` -> Order Service
+- `/health` -> Gateway health check
 
 
+## Local Run
 
-### Test cases covered
+### Build and run with Docker Compose
 
-#### 1. Catalog API — GET endpoint
-Verified that the Catalog API returns product details correctly for a valid product ID.
+```bash
+docker compose up --build
+```
 
-#### 2. Order API — POST endpoint
-Verified that a new order can be created successfully.
+### Stop containers
 
-#### 3. Order API — GET by ID endpoint
-Verified that the created order can be fetched correctly using its generated order ID.
+```bash
+docker compose down
+```
 
-#### 4. Service-to-service validation flow
-While creating an order, the Order API checks whether the product exists in the Catalog API before saving the order.  
-This validates the real integration behavior between both services.
+### Stop containers and delete volumes
 
+```bash
+docker compose down -v
+```
 
+## Earlier Docker Practice Notes
 
+These commands were used during my initial Docker learning with a standalone `Catalog.Api` project. This is kept only as an early learning reference and is not part of the final microservices architecture.
+
+```bash
+docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
+docker run --rm -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 catalog-api
+```
+### Swagger for this standalone practice project: 
+ Open `/swagger`
+
+## Database Setup
+
+- `catalog-db` for Catalog Service
+- `order-db` for Order Service
+
+Inside Docker network, services use:
+
+- `catalog-db:5432`
+- `order-db:5432`
+
+Local mapped ports:
+
+- `catalog-db` -> `localhost:5433`
+- `order-db` -> `localhost:5434`
+
+EF Core migrations are applied on startup using `Database.Migrate()`.
+
+## Gateway (YARP)
+
+Implemented an API Gateway using YARP to provide a single public entry point for backend services.
+
+### Completed
+- Added API Gateway project using YARP
+- Configured reverse proxy routes for Catalog and Order services
+- Added `/health` endpoint
+- Verified routing through gateway
+- Tested endpoints successfully in Postman
+
+## Integration Testing
+
+A separate integration test project was added to verify API behavior using real HTTP endpoints.
+
+### Covered scenarios
+- Catalog API GET endpoint
+- Order API POST endpoint
+- Order API GET by ID endpoint
+- Service-to-service validation from Order API to Catalog API
 
 ### Technologies used
-
-- ASP.NET Core
 - xUnit
 - `Microsoft.AspNetCore.Mvc.Testing`
 - `WebApplicationFactory<Program>`
 - `HttpClient`
 - FluentAssertions
 
-
-### Project structure
-
-Example structure:
+### Test command
 
 ```bash
-src/
-  catalog-service/
-    Catalog.Api/
-  order-service/
-    Order.Api/
-tests/
-  Order.Api.IntegrationTests/
+dotnet test
+```
 
-```  
----
-### Day 6 - Deployment Notes (Azure Container Apps)
+## Azure Container Apps
 
-As part of Azure learning, I deployed the microservices application to Azure Container Apps.
-The deployed components included:
+As part of Azure learning, the application was deployed to Azure Container Apps.
 
-1. Gateway App
+### Deployed components
+- Gateway App
+- Catalog API
+- Catalog DB container
 
-2. Catalog API
+### Key activities
+- Built Docker images
+- Pushed images to Azure Container Registry
+- Deployed to Azure Container Apps
+- Configured secrets and environment variables
+- Checked logs for troubleshooting
+- Understood revisions after updates
 
-3. Catalog DB container
+## Kubernetes
 
-### The deployment process involved:
+Kubernetes manifests are available in the `/k8s` folder.
 
-1. building Docker images
+### Files added
+- `catalog-deployment.yaml`
+- `catalog-service.yaml`
+- `order-deployment.yaml`
+- `order-service.yaml`
+- `gateway-deployment.yaml`
+- `gateway-service.yaml`
+- `catalog-db-deployment.yaml`
+- `catalog-db-service.yaml`
+- `order-db-deployment.yaml`
+- `order-db-service.yaml`
 
-2. pushing images to Azure Container Registry
+Basic readiness and liveness probes were also added.
 
-3. deploying them to Azure Container Apps
+### Verification commands
 
-4. configuring secrets and environment variables
-
-5. checking application logs for troubleshooting
-
-6. understanding revisions after updates
-
-### This hands-on exercise helped me understand how cloud-native microservices can be hosted and managed in Azure without manually managing servers or Kubernetes clusters.
-
----
-
-
-### Day 7 - Kubernetes Hands-on Proof
-
-I deployed the microservices application in a Kubernetes playground using Deployments and Services.
-
-### Verified components
-- catalog-api
-- catalog-db
-- order-api
-- order-db
-- gateway-api
-
-### Verification commands used
 ```bash
 kubectl get pods
 kubectl get svc
-kubectl get svc gateway-api
-curl http://localhost:30080
+kubectl get deployments
 ```
+
 ### Screenshot proof
 
 ![Kubernetes Hands-on Proof](k8s-proof.png)
 
----
+## Key Learning Outcome
+
+This project helped me understand how to build and run cloud-native .NET microservices locally with Docker Compose, expose them through a YARP API Gateway, test them through integration testing, deploy them to Azure Container Apps, and define them conceptually in Kubernetes using Deployments and Services.
 
