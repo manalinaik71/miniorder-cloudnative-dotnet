@@ -88,8 +88,7 @@ These commands were used during my initial Docker learning with a standalone `Ca
 docker build -t catalog-api -f src/Catalog.Api/Dockerfile .
 docker run --rm -e ASPNETCORE_ENVIRONMENT=Development -p 8080:8080 catalog-api
 ```
-### Swagger for this standalone practice project: 
- Open `/swagger`
+Swagger for this standalone practice project: Open `/swagger`
 
 ## Database Setup
 
